@@ -3,15 +3,20 @@
 import json
 import os
 import customtkinter as ctk
-ArquivoJson= "cadastros.json"
-def bancoCarregado(ArquivoJson):
-    if not os.path.exists(ArquivoJson):
-        return []
+from Constants import DATA_PATH
+
+def bancoCarregado():
+    print("carregando banco de dados...")
+    if not os.path.exists(DATA_PATH):
+        print(f"Arquivo {DATA_PATH} não encontrado. Criando um novo arquivo.")
+        with open(DATA_PATH, 'w', encoding='utf-8') as arquivo:
+            json.dump([], arquivo)  # Cria um arquivo JSON vazio
     try:
-        with open(ArquivoJson, 'r', encoding ='utf-8') as arquivo:
+        with open(DATA_PATH, 'r', encoding ='utf-8') as arquivo:
             return  json.load(arquivo)
            
     except json.JSONDecodeError:
+        print("Erro ao decodificar o arquivo JSON. Retornando lista vazia.")
         return []
 
 
@@ -22,6 +27,7 @@ def ValidarEmail(email: str):
         return True
     else:
         return False
+    
 def criarAlerta(texto,titulo, master=None):
     alerta = ctk.CTkToplevel(master)
     alerta.title(titulo)
@@ -39,9 +45,9 @@ def criarAlerta(texto,titulo, master=None):
 
 
 
-def CadastraCliente( cpf, nome,telefone, email, perdido, nomeArquivo=ArquivoJson, master=None):
+def CadastraCliente( cpf, nome,telefone, email, perdido, master=None):
     if ValidarEmail(email) == True:
-        bancoAtual = bancoCarregado(nomeArquivo)
+        bancoAtual = bancoCarregado()
         if len(bancoAtual )== 0:
             id =1
         else:
@@ -57,7 +63,7 @@ def CadastraCliente( cpf, nome,telefone, email, perdido, nomeArquivo=ArquivoJson
             }    
         bancoAtual.append(novoUsuario) 
 
-        with open(nomeArquivo,'w', encoding="utf-8") as arquivo:
+        with open(DATA_PATH,'w', encoding="utf-8") as arquivo:
             json.dump(bancoAtual,arquivo, indent=4,ensure_ascii=False)
     else:
         criarAlerta("Alerta, email invalído!","email aviso", master=None)
@@ -65,8 +71,8 @@ def CadastraCliente( cpf, nome,telefone, email, perdido, nomeArquivo=ArquivoJson
 
 
 
-def ExcluirUsuario(cpf,ArquivoJson):
-    banco_atual = bancoCarregado(ArquivoJson)
+def ExcluirUsuario(cpf):
+    banco_atual = bancoCarregado()
     CpfUser = cpf.strip()
     Cpf_achado = None
     for cpfbuscado in banco_atual:
@@ -77,15 +83,15 @@ def ExcluirUsuario(cpf,ArquivoJson):
     if  Cpf_achado is not None:
         banco_atual.remove(Cpf_achado)
 
-        with open(ArquivoJson,'w',encoding="utf-8") as arquivo:
+        with open(DATA_PATH,'w',encoding="utf-8") as arquivo:
             json.dump(banco_atual,arquivo, ensure_ascii=False, indent=4)
         return True
     return False
 #está pegando tentando pegar um dicionario e não um json. conserta isso
 
 
-def PesquisarUser(TermoDigitado,ArquivoJson):
-    banco_atual = bancoCarregado(ArquivoJson)
+def PesquisarUser(TermoDigitado):
+    banco_atual = bancoCarregado()
     termoBusc = str(TermoDigitado).strip().lower()
 
     userEncontrados = []
