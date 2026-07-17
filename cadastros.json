@@ -1,0 +1,43 @@
+[
+    {
+        "id": 1,
+        "cpf": "123.456.789-00",
+        "nome": "Julio Cezar",
+        "telefone": "86999998888",
+        "email": "julio@email.com",
+        "perdido": "Sim"
+    },
+    {
+        "id": 2,
+        "cpf": "987.654.321-11",
+        "nome": "Maria Silva",
+        "telefone": "11988887777",
+        "email": "maria.silva@email.com",
+        "perdido": "Não"
+    },
+    {
+        "id": 3,
+        "cpf": "444.555.666-22",
+        "nome": "Carlos André",
+        "telefone": "21977776666",
+        "email": "carlos.andre@email.com",
+        "perdido": "Sim"
+    },
+    {
+        "id": 4,
+        "cpf": "345",
+        "nome": "moacy",
+        "telefone": "6666",
+        "email": "moacy@gmail.com",
+        "perdido": "True"
+    },
+    
+    {
+        "id": 5,
+        "cpf": "677",
+        "nome": "nathan",
+        "telefone": "8888",
+        "email": "nathan",
+        "perdido": "True"
+    }
+]
